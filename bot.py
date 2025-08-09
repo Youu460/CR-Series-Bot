@@ -38,37 +38,57 @@ class Bot(Client):
             sleep_threshold=5,
         )
 
-    async def start(self):
+        async def start(self):
         b_users, b_chats = await db.get_banned()
         temp.BANNED_USERS = b_users
         temp.BANNED_CHATS = b_chats
         await super().start()
         await Media.ensure_indexes()
+
         me = await self.get_me()
         temp.ME = me.id
         temp.U_NAME = me.username
         temp.B_NAME = me.first_name
         self.username = '@' + me.username
+
         tz = pytz.timezone('Asia/Kolkata')
         today = date.today()
         now = datetime.now(tz)
-        time = now.strftime("%I:%M:%S %p")
+        current_time = now.strftime("%I:%M:%S %p")
 
-# Force peer resolution so Pyrogram knows this chat exists
-        await self.get_chat(LOG_CHANNEL)
+        # ✅ Safely try to join or fetch the log channel
+        try:
+            await self.get_chat(LOG_CHANNEL)
+        except Exception as e:
+            try:
+                # If bot is not in the channel, try joining (works with @username or invite link)
+                await self.join_chat(LOG_CHANNEL)
+                logging.info(f"Joined LOG_CHANNEL: {LOG_CHANNEL}")
+            except Exception as join_err:
+                logging.error(f"Cannot access LOG_CHANNEL: {join_err}")
+                # Skip sending the start message if channel not accessible
+                return
 
-        await self.send_message(
-        chat_id=LOG_CHANNEL,
-        text=f"@{me.username} Rᴇsᴛᴀʀᴛᴇᴅ !\n\n📅 Dᴀᴛᴇ : {today}\n⏰ Tɪᴍᴇ : {time}\n🌐 Tɪᴍᴇᴢᴏɴᴇ : Asia/Kolkata"
-        )
+        # If accessible, send restart message
+        try:
+            await self.send_message(
+                chat_id=LOG_CHANNEL,
+                text=(
+                    f"@{me.username} Rᴇsᴛᴀʀᴛᴇᴅ !\n\n"
+                    f"📅 Dᴀᴛᴇ : {today}\n"
+                    f"⏰ Tɪᴍᴇ : {current_time}\n"
+                    f"🌐 Tɪᴍᴇᴢᴏɴᴇ : Asia/Kolkata"
+                )
+            )
+        except Exception as send_err:
+            logging.error(f"Failed to send restart message: {send_err}")
 
-# port
+        # Start web server
         app = web.AppRunner(await web_server())
-
         await app.setup()
         bind_address = "0.0.0.0"
         await web.TCPSite(app, bind_address, PORT).start()
-        logging.info(f"{me.first_name} with for Pyrogram v{__version__} (Layer {layer}) started on {me.username}.")
+        logging.info(f"{me.first_name} with Pyrogram v{version} (Layer {layer}) started as {me.username}.")
 
     async def stop(self, *args):
         await super().stop()
