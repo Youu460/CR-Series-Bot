@@ -39,7 +39,7 @@ class Bot(Client):
         )
 
         async def start_bot():
-    b_users, b_chats = await db.get_banned()  # ✅ 4 spaces indentation
+            b_users, b_chats = await db.get_banned()  # ✅ 4 spaces indentation
         temp.BANNED_USERS = b_users
         temp.BANNED_CHATS = b_chats
         await super().start()
