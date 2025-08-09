@@ -19,7 +19,7 @@ def is_enabled(value, default):
 SESSION = environ.get('SESSION', 'Media_search')
 API_ID = "11643051"
 API_HASH = "7dfe39d9cf2054402e5a6c9a9439a610"
-BOT_TOKEN = "7323768509:AAHMEU5SBhVe7sM6gRpuBh0al_t8LarrFjY"
+BOT_TOKEN = "8413299267:AAGDGLB2PJzbVbyQClSfq7o1fw6Gzzk-uG0"
 
 #Delete_Time
 DELETE_TIME = int(environ.get('DELETE_TIME', 15))
