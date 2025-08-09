@@ -52,7 +52,7 @@ REQ_CHANNEL = int(REQ_CHANNEL) if REQ_CHANNEL and id_pattern.search(REQ_CHANNEL)
 JOIN_REQS_DB = environ.get("JOIN_REQS_DB", DATABASE_URI)
 
 # Others
-LOG_CHANNEL = int(environ.get('LOG_CHANNEL', '-1001506481594'))
+LOG_CHANNEL = int(environ.get('LOG_CHANNEL', '-1002471172756'))
 SUPPORT_CHAT = environ.get('SUPPORT_CHAT', 'CR_movie_group')
 GRP_LNK = environ.get('GRP_LNK', 'https://t.me/CR_movie_group')
 CHNL_LNK = environ.get('CHNL_LNK', 'https://t.me/+Mq89b4bqX6cwMWQ1')
