@@ -55,15 +55,15 @@ class Bot(Client):
         time = now.strftime("%I:%M:%S %p")
 
 # Force peer resolution so Pyrogram knows this chat exists
-await self.get_chat(LOG_CHANNEL)
+        await self.get_chat(LOG_CHANNEL)
 
-await self.send_message(
-    chat_id=LOG_CHANNEL,
-    text=f"@{me.username} Rᴇsᴛᴀʀᴛᴇᴅ !\n\n📅 Dᴀᴛᴇ : {today}\n⏰ Tɪᴍᴇ : {time}\n🌐 Tɪᴍᴇᴢᴏɴᴇ : Asia/Kolkata"
-)
+        await self.send_message(
+        chat_id=LOG_CHANNEL,
+        text=f"@{me.username} Rᴇsᴛᴀʀᴛᴇᴅ !\n\n📅 Dᴀᴛᴇ : {today}\n⏰ Tɪᴍᴇ : {time}\n🌐 Tɪᴍᴇᴢᴏɴᴇ : Asia/Kolkata"
+        )
 
 # port
-app = web.AppRunner(await web_server())
+        app = web.AppRunner(await web_server())
 
         await app.setup()
         bind_address = "0.0.0.0"
